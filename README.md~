@@ -24,11 +24,11 @@ To run from a gateway node in a CDH5 cluster:
     CLASSPATH=$CLASSPATH:$SPARK_HOME/assembly/lib/*
 
     # app jar:
-    CLASSPATH=$CLASSPATH:target/sparkavroapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+    CLASSPATH=$CLASSPATH:target/sparkwordcount-0.0.1-SNAPSHOT.jar
 
-    CONFIG_OPTS="-Dspark.master=local -Dspark.jars=target/sparkavroapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
+    CONFIG_OPTS="-Dspark.master=local -Dspark.jars=target/sparkwordcount-0.0.1-SNAPSHOT.jar"
     
-    $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.cloudera.sparkavro.SparkAvroWriter 
+    $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.cloudera.sparkwordcount.SparkWordCount <input file> 2
 
 This will run the application in a single local process.  If the cluster is running a Spark standalone
 cluster manager, you can replace "-Dspark.master=local" with

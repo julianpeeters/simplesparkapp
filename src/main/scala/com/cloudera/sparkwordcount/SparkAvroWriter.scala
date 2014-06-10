@@ -46,7 +46,7 @@ class MyRegistrator extends KryoRegistrator {
 object SparkAvroWriter {
   def main(args: Array[String]) {
 
-  val outPath = "data/"
+  val outPath = args(0)
     val sconf = new SparkConf().setAppName("Spark Count")
       sconf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       sconf.set("spark.kryo.registrator", "com.cloudera.sparkavro.MyRegistrator")
@@ -76,6 +76,6 @@ object SparkAvroWriter {
     FileOutputFormat.setOutputPath(conf, new Path(outPath))
     AvroJob.setOutputKeySchema(conf, schema)
     conf.setOutputFormatClass(classOf[AvroKeyOutputFormat[Any]])
-    withValues.saveAsTextFile("data/")
+    withValues.saveAsTextFile(outPath)
   }
 }

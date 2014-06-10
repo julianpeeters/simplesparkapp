@@ -1,9 +1,10 @@
 Simple Spark Application
 ==============
 
-A simple Spark application that counts the occurrence of each word in a corpus and then counts the
-occurrence of each character in the most popular words.  Includes the same program implemented in
-Java and Scala.
+A simple Spark application that writes and reads avros.
+
+(tested on a Cloudera Quickstart VM version 5.0)
+
 
 To make a jar:
 
@@ -24,11 +25,14 @@ To run from a gateway node in a CDH5 cluster:
     CLASSPATH=$CLASSPATH:$SPARK_HOME/assembly/lib/*
 
     # app jar:
-    CLASSPATH=$CLASSPATH:target/sparkwordcount-0.0.1-SNAPSHOT.jar
+    CLASSPATH=$CLASSPATH:target/sparkavroapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
-    CONFIG_OPTS="-Dspark.master=local -Dspark.jars=target/sparkwordcount-0.0.1-SNAPSHOT.jar"
+    CONFIG_OPTS="-Dspark.master=local -Dspark.jars=target/sparkavroapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
     
-    $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.cloudera.sparkwordcount.SparkWordCount <input file> 2
+    $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.cloudera.sparkavro.SparkAvroWriter <output path>
+    #$JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.cloudera.sparkavro.SparkAvroReader <input path>
+
+
 
 This will run the application in a single local process.  If the cluster is running a Spark standalone
 cluster manager, you can replace "-Dspark.master=local" with

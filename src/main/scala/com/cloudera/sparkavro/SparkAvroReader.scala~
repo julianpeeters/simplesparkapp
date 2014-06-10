@@ -18,14 +18,18 @@
 
 package com.cloudera.sparkavro
 
-import com.miguno.avro.twitter_schema
 import org.apache.spark.{SparkContext, SparkConf}
-import org.apache.avro.generic.GenericData
 import org.apache.hadoop.mapreduce.Job
 import org.apache.avro.mapreduce.AvroKeyInputFormat
 import org.apache.avro.mapred.AvroKey
 import org.apache.hadoop.io.NullWritable
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
+
+import com.julianpeeters.avro.annotations._
+
+//@AvroTypeProvider("data/twitter.avro")
+@AvroRecord
+case class twitter_schema(var username: String, var tweet: String, var timestamp: Long)
 
 object SparkAvroReader {
   def main(args: Array[String]) {

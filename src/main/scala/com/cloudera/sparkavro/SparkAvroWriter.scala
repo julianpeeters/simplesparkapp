@@ -31,7 +31,7 @@ import org.apache.hadoop.io.NullWritable
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
 import org.apache.hadoop.mapreduce.Job
 
-import com.miguno.avro.twitter_schema
+//import com.miguno.avro.twitter_schema
 
 import com.esotericsoftware.kryo.Kryo
 import org.apache.spark.serializer.KryoRegistrator
@@ -66,7 +66,8 @@ object SparkAvroWriter {
 
     val conf = new Job()
     FileOutputFormat.setOutputPath(conf, new Path(outPath))
-    AvroJob.setOutputKeySchema(conf, twitter_schema.SCHEMA$)
+//    AvroJob.setOutputKeySchema(conf, twitter_schema.SCHEMA$)
+    AvroJob.setOutputKeySchema(conf, tweet1.getSchema)
     conf.setOutputFormatClass(classOf[AvroKeyOutputFormat[Any]])
     withValues.saveAsTextFile(outPath)
 

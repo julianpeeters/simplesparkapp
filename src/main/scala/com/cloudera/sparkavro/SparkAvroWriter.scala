@@ -25,20 +25,20 @@ import org.apache.spark.SparkConf
 import org.apache.avro.mapreduce.{AvroKeyOutputFormat, AvroJob}
 import org.apache.avro.mapred.AvroKey
 import org.apache.avro.Schema.Parser
-import org.apache.avro.generic.GenericData
 
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.NullWritable
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat
 import org.apache.hadoop.mapreduce.Job
 
+import com.miguno.avro.twitter_schema
 
 import com.esotericsoftware.kryo.Kryo
 import org.apache.spark.serializer.KryoRegistrator
 
 class MyRegistrator extends KryoRegistrator {
   override def registerClasses(kryo: Kryo) {
-    kryo.register(classOf[GenericData.Record])
+    kryo.register(classOf[twitter_schema])
   }
 }
 
@@ -52,21 +52,13 @@ object SparkAvroWriter {
       sconf.set("spark.kryo.registrator", "com.cloudera.sparkavro.MyRegistrator")
     val sctx = new SparkContext(sconf)
 
-    val schema = new Parser().parse(this.getClass.getClassLoader
-      .getResourceAsStream("user.avsc"))
+    val tweet1 = new twitter_schema("Ludwig", "Words are deeds.", 1L)
 
-    val user1 = new GenericData.Record(schema)
-    user1.put("name", "Alyssa")
-    user1.put("favorite_number", 256)
+    val tweet2 = new twitter_schema("Bernie", "The time you enjoy wasting is not wasted time.", 2L)
 
-    val user2 = new GenericData.Record(schema)
-    user2.put("name", "Ben")
-    user2.put("favorite_number", 7)
-    user2.put("favorite_color", "red")
+      println(tweet2)
 
-      println(user2)
-
-    val records = sctx.parallelize(Array(user1, user2))
+    val records = sctx.parallelize(Array(tweet1, tweet2))
 
       records.foreach(println)
 
@@ -74,8 +66,9 @@ object SparkAvroWriter {
 
     val conf = new Job()
     FileOutputFormat.setOutputPath(conf, new Path(outPath))
-    AvroJob.setOutputKeySchema(conf, schema)
+    AvroJob.setOutputKeySchema(conf, twitter_schema.SCHEMA$)
     conf.setOutputFormatClass(classOf[AvroKeyOutputFormat[Any]])
     withValues.saveAsTextFile(outPath)
+
   }
 }

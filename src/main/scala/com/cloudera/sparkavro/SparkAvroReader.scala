@@ -18,6 +18,8 @@
 
 package com.cloudera.sparkavro
 
+import com.miguno.avro.twitter_schema
+
 import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.avro.generic.GenericData
 import org.apache.hadoop.mapreduce.Job
@@ -37,12 +39,12 @@ object SparkAvroReader {
     FileInputFormat.setInputPaths(conf, inPath)
 
     val records = sc.newAPIHadoopRDD(conf.getConfiguration,
-      classOf[AvroKeyInputFormat[GenericData.Record]],
-      classOf[AvroKey[GenericData.Record]],
+      classOf[AvroKeyInputFormat[twitter_schema]],
+      classOf[AvroKey[twitter_schema]],
       classOf[NullWritable])
 
     val tweetsAndNames = records.map(x =>
-      (x._1.datum.get("username"), x._1.datum.get("tweet")))
+      (x._1.datum.username, x._1.datum.tweet))
 
     println("tweets and names: " + tweetsAndNames.collect().mkString(","))
   }

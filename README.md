@@ -31,10 +31,10 @@ To run from a gateway node in a CDH5 cluster:
     CONFIG_OPTS="-Dspark.master=local -Dspark.jars=target/sparkavroapp-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
     
     # writing:
-    $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.cloudera.sparkavro.SparkAvroWriter <output path>
+    $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.miguno.avro.SparkAvroWriter <output path>
     
     # reading:
-    # $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.cloudera.sparkavro.SparkAvroReader <input path>
+    # $JAVA_HOME/bin/java -cp $CLASSPATH $CONFIG_OPTS com.miguno.avro.SparkAvroReader <input path>
 
 
 

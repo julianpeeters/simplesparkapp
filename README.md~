@@ -5,7 +5,7 @@ A simple Spark application that writes and reads avros.
 
 tested on a Cloudera Quickstart VM version 5.0:
 1) Writing GenericRecords fails until Avro 1.7.7 (in Cloudera CDH 5.x) (see https://github.com/sryza/simplesparkavroapp/issues/2)
-2) Writing SpecificRecords can be written as json-esque strings in textfiles, can't write actual avros until Spark 1.0.0 (also in the next Cloudera CDH)
+2) Writing SpecificRecords can be written as json-esque strings in textfiles, can't write actual avros until Spark 1.0.0 when `saveAsNewAPIHadoopDataset` is available (also in the next Cloudera CDH)
 
 To make a jar:
 

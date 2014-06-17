@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 
-package com.cloudera.sparkavro
+package com.miguno.avro
+//package com.cloudera.sparkavro
 
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._

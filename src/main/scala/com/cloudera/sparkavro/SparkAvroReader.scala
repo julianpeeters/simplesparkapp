@@ -22,16 +22,18 @@ package com.miguno.avro
 
 import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.hadoop.mapreduce.Job
+import org.apache.avro.mapreduce.AvroJob
 import org.apache.avro.mapreduce.AvroKeyInputFormat
 import org.apache.avro.mapred.AvroKey
 import org.apache.hadoop.io.NullWritable
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat
-
+import org.apache.hadoop.conf.Configuration
 import com.julianpeeters.avro.annotations._
 
-//@AvroTypeProvider("data/twitter.avro")
+@AvroTypeProvider("data/twitter.avro")
 @AvroRecord
-case class twitter_schema(var username: String, var tweet: String, var timestamp: Long)
+case class twitter_schema()
+//case class twitter_schema(var username: String, var tweet: String, var timestamp: Long)
 
 object SparkAvroReader {
   def main(args: Array[String]) {
@@ -40,10 +42,14 @@ object SparkAvroReader {
     val sparkConf = new SparkConf().setAppName("Spark Avro")
     val sc = new SparkContext(sparkConf)
 
-    val conf = new Job()
-    FileInputFormat.setInputPaths(conf, inPath)
+    // A Schema must be specified, else `avro.mapreduce` tries to make one reflectively
+    val c = new Configuration
+    val job = new Job(c)
+    val cf = job.getConfiguration
+    FileInputFormat.setInputPaths(job, inPath)
+    AvroJob.setInputKeySchema(job, twitter_schema().getSchema)
 
-    val records = sc.newAPIHadoopRDD(conf.getConfiguration,
+    val records = sc.newAPIHadoopRDD(job.getConfiguration,
       classOf[AvroKeyInputFormat[twitter_schema]],
       classOf[AvroKey[twitter_schema]],
       classOf[NullWritable])

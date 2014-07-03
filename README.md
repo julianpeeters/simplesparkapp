@@ -1,9 +1,11 @@
 Simple Spark Application
-==============
+========================
 
-A simple Spark application that counts the occurrence of each word in a corpus and then counts the
+A simple maven project that counts the occurrence of each word in a corpus and then counts the
 occurrence of each character in the most popular words.  Includes the same program implemented in
-Java and Scala.
+Java and Scala. 
+
+*Please see branches for various examples
 
 To make a jar:
 
